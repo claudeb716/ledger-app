@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-import java.io.File;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -74,6 +74,30 @@ public class FinancialTracker {
         // TODO: create file if it does not exist, then read each line,
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
+
+
+        String line;
+
+        try {
+            BufferedWriter tw = new BufferedWriter(new FileWriter(FILE_NAME));
+            BufferedReader tr = new BufferedReader(new FileReader(FILE_NAME));
+            while ((line = tr.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                LocalDate date = LocalDate.parse(parts[0], DATE_FMT);
+                LocalTime time = LocalTime.parse(parts[1], TIME_FMT);
+                String description = parts[2];
+                String vendor = parts[3];
+                double price = Double.parseDouble(parts[4]);
+                transactions.add(new Transaction(date, time, description, vendor, price));
+                tw.write(String.valueOf(transactions));
+
+
+            }
+            tr.close();
+
+        } catch (Exception e) {
+            System.err.println("Error");
+        }
     }
 
     /* ------------------------------------------------------------------
