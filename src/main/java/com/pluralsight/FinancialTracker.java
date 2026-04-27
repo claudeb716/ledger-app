@@ -121,8 +121,13 @@ public class FinancialTracker {
             System.out.println("Add Amount(Positive): ");
             double price = scanner.nextDouble();
             scanner.nextLine();
-            transactions.add(new Transaction(date, time, describe, ven, price));
-            bw.write(String.valueOf(transactions));
+            Transaction newDeposit = new Transaction(date, time, describe, ven, price);
+            String line = String.format("%s|%s|%s|%s|%.2f",
+                    newDeposit.getDate().format(DATE_FMT),newDeposit.getTime().format(TIME_FMT),
+                    newDeposit.getDescription(),newDeposit.getVendor(),newDeposit.getAmount());
+            bw.write(line);
+            bw.newLine();
+            bw.close();
             System.out.println("Deposit Added!");
         } catch (IOException e) {
             System.err.println("Error");
