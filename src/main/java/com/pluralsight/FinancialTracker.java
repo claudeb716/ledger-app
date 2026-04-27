@@ -37,7 +37,7 @@ public class FinancialTracker {
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner myScanner = new Scanner(System.in);
         boolean running = true;
 
         while (running) {
@@ -48,17 +48,17 @@ public class FinancialTracker {
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
 
-            String input = scanner.nextLine().trim();
+            String input = myScanner.nextLine().trim();
 
             switch (input.toUpperCase()) {
-                case "D" -> addDeposit(scanner);
-                case "P" -> addPayment(scanner);
-                case "L" -> ledgerMenu(scanner);
+                case "D" -> addDeposit(myScanner);
+                case "P" -> addPayment(myScanner);
+                case "L" -> ledgerMenu(myScanner);
                 case "X" -> running = false;
                 default -> System.out.println("Invalid option");
             }
         }
-        scanner.close();
+        myScanner.close();
     }
 
     /* ------------------------------------------------------------------
@@ -141,6 +141,31 @@ public class FinancialTracker {
      */
     private static void addPayment(Scanner scanner) {
         // TODO
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
+
+            System.out.println("Add Date(yyyy-MM-dd): ");
+            LocalDate date = LocalDate.parse(scanner.nextLine());
+            System.out.println("Add Time(HH:mm:ss): ");
+            LocalTime time = LocalTime.parse(scanner.nextLine());
+            System.out.println("Add Description: ");
+            String describe = scanner.nextLine();
+            System.out.println("Add Vendor: ");
+            String ven = scanner.nextLine();
+            System.out.println("Add Amount(Positive): ");
+            double price = -1 * scanner.nextDouble();
+            scanner.nextLine();
+            Transaction newDeposit = new Transaction(date, time, describe, ven, price);
+            String line = String.format("%s|%s|%s|%s|%.2f",
+                    newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
+                    newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
+            bw.write(line);
+            bw.newLine();
+            bw.close();
+            System.out.println("Payment Added!");
+        } catch (IOException e) {
+            System.err.println("Error");
+        }
     }
 
     /* ------------------------------------------------------------------
