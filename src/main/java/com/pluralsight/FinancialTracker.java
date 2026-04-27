@@ -107,6 +107,26 @@ public class FinancialTracker {
      */
     private static void addDeposit(Scanner scanner) {
         // TODO
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME,true));
+
+            System.out.println("Add Date(yyyy-MM-dd): ");
+            LocalDate date = LocalDate.parse(scanner.nextLine());
+            System.out.println("Add Time(HH:mm:ss): ");
+            LocalTime time = LocalTime.parse(scanner.nextLine());
+            System.out.println("Add Description: ");
+            String describe = scanner.nextLine();
+            System.out.println("Add Vendor: ");
+            String ven = scanner.nextLine();
+            System.out.println("Add Amount(Positive): ");
+            double price = scanner.nextDouble();
+            scanner.nextLine();
+            transactions.add(new Transaction(date, time, describe, ven, price));
+            bw.write(String.valueOf(transactions));
+            System.out.println("Deposit Added!");
+        } catch (IOException e) {
+            System.err.println("Error");
+        }
     }
 
     /**
