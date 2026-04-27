@@ -245,19 +245,31 @@ public class FinancialTracker {
             System.out.println("0) Back");
 
             String input = scanner.nextLine().trim();
-            LocalDate start = LocalDate.now().withDayOfMonth(1);
-            LocalDate end = LocalDate.now();
+
+            LocalDate today = LocalDate.now();
+            LocalDate start = today.withDayOfMonth(1);
+            LocalDate previousMonth = start.minusMonths(1);
+            LocalDate end2 = start.minusDays(1);
+            LocalDate yearStart = today.withDayOfYear(1);
+            LocalDate previousYear =today.minusYears(1).withDayOfYear(1);
+            LocalDate end3 = today.minusYears(1).withMonth(12).withDayOfMonth(31);
 
             switch (input) {
                 case "1" -> {
                     /* TODO – month-to-date report */
-                    filterTransactionsByDate(start, end);
+                    filterTransactionsByDate(start, today);
                 }
                 case "2" -> {
                     /* TODO – previous month report */
+                    filterTransactionsByDate(previousMonth, end2);
                 }
-                case "3" -> {/* TODO – year-to-date report   */ }
-                case "4" -> {/* TODO – previous year report  */ }
+                case "3" -> {
+                    /* TODO – year-to-date report   */
+                    filterTransactionsByDate(yearStart,today);
+                }
+                case "4" -> {/* TODO – previous year report  */
+                    filterTransactionsByDate(previousYear, end3);
+                }
                 case "5" -> {
                     /* TODO – prompt for vendor then report */
                     filterTransactionsByVendor(FILE_NAME);
@@ -279,8 +291,10 @@ public class FinancialTracker {
             System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
                     transaction.getDate(), transaction.getTime(),
                     transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+        }else {
+            System.out.println("No Reports Found!");
+            return;
         }
-
         }
 
 
@@ -288,6 +302,11 @@ public class FinancialTracker {
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
+        for (Transaction transaction : transactions){
+            if (vendor.equalsIgnoreCase(transaction.getVendor()); {
+
+            }
+        }
     }
 
     private static void customSearch(Scanner scanner) {
