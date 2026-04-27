@@ -79,22 +79,17 @@ public class FinancialTracker {
         String line;
 
         try {
-            BufferedWriter tw = new BufferedWriter(new FileWriter(FILE_NAME));
-            BufferedReader tr = new BufferedReader(new FileReader(FILE_NAME));
+            BufferedReader tr = new BufferedReader(new FileReader(fileName));
             while ((line = tr.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 LocalDate date = LocalDate.parse(parts[0], DATE_FMT);
                 LocalTime time = LocalTime.parse(parts[1], TIME_FMT);
                 String description = parts[2];
                 String vendor = parts[3];
-                double price = Double.parseDouble(parts[4]);
-                transactions.add(new Transaction(date, time, description, vendor, price));
-                tw.write(String.valueOf(transactions));
-
-
+                double amount = Double.parseDouble(parts[4]);
+                transactions.add(new Transaction(date, time, description, vendor, amount));
             }
             tr.close();
-
         } catch (Exception e) {
             System.err.println("Error");
         }
