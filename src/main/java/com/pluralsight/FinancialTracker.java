@@ -108,7 +108,7 @@ public class FinancialTracker {
     private static void addDeposit(Scanner scanner) {
         // TODO
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME,true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
 
             System.out.println("Add Date(yyyy-MM-dd): ");
             LocalDate date = LocalDate.parse(scanner.nextLine());
@@ -123,8 +123,8 @@ public class FinancialTracker {
             scanner.nextLine();
             Transaction newDeposit = new Transaction(date, time, describe, ven, price);
             String line = String.format("%s|%s|%s|%s|%.2f",
-                    newDeposit.getDate().format(DATE_FMT),newDeposit.getTime().format(TIME_FMT),
-                    newDeposit.getDescription(),newDeposit.getVendor(),newDeposit.getAmount());
+                    newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
+                    newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
             bw.write(line);
             bw.newLine();
             bw.close();
@@ -201,22 +201,32 @@ public class FinancialTracker {
     private static void displayLedger() {
         /* TODO – print all transactions in column format */
         for (Transaction transaction : transactions) {
-            System.out.println(transaction);
+            System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
+                    transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
+                    transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
         }
     }
-
     private static void displayDeposits() {
         /* TODO – only amount > 0               */
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0){
-                System.out.println(transaction);
-                return;
+                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
+                        transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
+                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            }
+        }
+    }
+    private static void displayPayments() {
+        /* TODO – only amount < 0               */
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() < 0) {
+                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
+                        transaction.getDate(), transaction.getTime(),
+                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
             }
 
         }
     }
-
-    private static void displayPayments() { /* TODO – only amount < 0               */ }
 
     /* ------------------------------------------------------------------
        Reports menu
