@@ -222,7 +222,7 @@ public class FinancialTracker {
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
                 System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                        transaction.getDate(), transaction.getTime(),
+                        transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
                         transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
             }
 
@@ -319,6 +319,29 @@ public class FinancialTracker {
     private static void customSearch(Scanner scanner) {
         // TODO – prompt for any combination of date range, description,
         //        vendor, and exact amount, then display matches
+        boolean running = true;
+        while (running) {
+            System.out.println("Custom Search");
+            System.out.println("Choose an option:");
+            System.out.println("1) Start Date");
+            System.out.println("2) End Date");
+            System.out.println("3) Description");
+            System.out.println("4) Vendor");
+            System.out.println("5) Amount");
+            System.out.println("0) Back");
+
+            String input = scanner.nextLine().trim();
+            switch (input) {
+                case "1" -> {}
+                case "2" -> {}
+                case "3" -> {}
+                case "4" -> {}
+                case "5" -> {}
+                case "0" -> running = false;
+                default -> System.out.println("Invalid option");
+            }
+        }
+
     }
 
     /* ------------------------------------------------------------------
