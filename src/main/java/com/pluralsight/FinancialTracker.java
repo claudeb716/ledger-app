@@ -302,10 +302,12 @@ public class FinancialTracker {
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
-        for (Transaction transaction : transactions){
-            if (vendor.equalsIgnoreCase(transaction.getVendor()); {
-
+        vendor = "";
+        for (int i = 0; i < transactions.size(); i++) {
+            if (vendor.equalsIgnoreCase(String.valueOf(transactions))){
+                System.out.println(transactions);
             }
+
         }
     }
 
