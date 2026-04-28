@@ -202,9 +202,8 @@ public class FinancialTracker {
     private static void displayLedger() {
         /* TODO – print all transactions in column format */
         for (Transaction transaction : transactions) {
-            LocalDateTime comb = LocalDateTime.of(transaction.getDate(),transaction.getTime());
-            System.out.printf("%-20s | %-20s | %-15s | $%.2f%n",
-                    comb,
+            System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
+                    transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
                     transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
         }
     }
