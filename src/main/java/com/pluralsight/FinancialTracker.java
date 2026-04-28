@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -197,12 +198,13 @@ public class FinancialTracker {
 
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
-       ------------------------------------------------------------------ */
+       ---------------------------------- -------------------------------- */
     private static void displayLedger() {
         /* TODO – print all transactions in column format */
         for (Transaction transaction : transactions) {
-            System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                    transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
+            LocalDateTime comb = LocalDateTime.of(transaction.getDate(),transaction.getTime());
+            System.out.printf("%-20s | %-20s | %-15s | $%.2f%n",
+                    comb,
                     transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
         }
     }
@@ -255,16 +257,13 @@ public class FinancialTracker {
             LocalDate end3 = today.minusYears(1).withMonth(12).withDayOfMonth(31);
 
             switch (input) {
-                case "1" -> {
-                    /* TODO – month-to-date report */
+                case "1" -> {/* TODO – month-to-date report */
                     filterTransactionsByDate(start, today);
                 }
-                case "2" -> {
-                    /* TODO – previous month report */
+                case "2" -> {/* TODO – previous month report */
                     filterTransactionsByDate(previousMonth, end2);
                 }
-                case "3" -> {
-                    /* TODO – year-to-date report   */
+                case "3" -> {/* TODO – year-to-date report   */
                     filterTransactionsByDate(yearStart,today);
                 }
                 case "4" -> {/* TODO – previous year report  */
@@ -272,7 +271,9 @@ public class FinancialTracker {
                 }
                 case "5" -> {
                     /* TODO – prompt for vendor then report */
-                    filterTransactionsByVendor(FILE_NAME);
+                    System.out.println("Enter Vendor name");
+                    String venName = scanner.nextLine().trim();
+                    filterTransactionsByVendor(venName);
                 }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
@@ -286,15 +287,16 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+        boolean found = false;
         for (Transaction transaction : transactions){
         if (!transaction.getDate().isBefore(start) && !transaction.getDate().isAfter(end)){
             System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
                     transaction.getDate(), transaction.getTime(),
                     transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
-        }else {
-            System.out.println("No Reports Found!");
-            return;
+            found = true;
         }
+        }   if (!found){
+            System.out.println("No Reports Found!");
         }
 
 
@@ -302,12 +304,16 @@ public class FinancialTracker {
 
     private static void filterTransactionsByVendor(String vendor) {
         // TODO – iterate transactions, print those with matching vendor
-        vendor = "";
-        for (int i = 0; i < transactions.size(); i++) {
-            if (vendor.equalsIgnoreCase(String.valueOf(transactions))){
-                System.out.println(transactions);
+        boolean found = false;
+        for (Transaction transaction : transactions) {
+            if (transaction.getVendor().equalsIgnoreCase(vendor)){
+                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
+                        transaction.getDate(), transaction.getTime(),
+                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+                found = true;
             }
-
+        }    if (!found){
+            System.out.println("No transactions found for: " + vendor);
         }
     }
 
