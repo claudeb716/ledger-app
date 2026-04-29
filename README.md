@@ -3,17 +3,19 @@
 ## Description of the Project
 
 Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+This app is a java-based management tool designed to 
 
 ## User Stories
 
 List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
 
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
+- As a Customer, I want a home screen so that I can navigate to different sections of the app.
+- As a Customer, I want to view a transaction ledger so that I can see a history of all my entries in one place.
+- As a Customer, I want filter specific time-based reports so that I can analyze my habits over different periods.
 
 ## Setup
 
-Instructions on how to set up and run the project using IntelliJ IDEA.
+https://github.com/claudeb716/ledger-app
 
 ### Prerequisites
 
@@ -32,7 +34,8 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
+- Java 17
+- 
 - Any additional libraries or frameworks used in the project.
 
 ## Demo

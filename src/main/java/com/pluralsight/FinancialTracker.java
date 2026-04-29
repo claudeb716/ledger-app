@@ -109,7 +109,7 @@ public class FinancialTracker {
     private static void addDeposit(Scanner scanner) {
         // TODO
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
+
 
             System.out.println("Add Date(yyyy-MM-dd): ");
             LocalDate date = LocalDate.parse(scanner.nextLine());
@@ -122,10 +122,13 @@ public class FinancialTracker {
             System.out.println("Add Amount(Positive): ");
             double price = scanner.nextDouble();
             scanner.nextLine();
+
             Transaction newDeposit = new Transaction(date, time, describe, ven, price);
             String line = String.format("%s|%s|%s|%s|%.2f",
                     newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
                     newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
             bw.write(line);
             bw.newLine();
             bw.close();
@@ -142,9 +145,8 @@ public class FinancialTracker {
      */
     private static void addPayment(Scanner scanner) {
         // TODO
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
 
+        try {
             System.out.println("Add Date(yyyy-MM-dd): ");
             LocalDate date = LocalDate.parse(scanner.nextLine());
             System.out.println("Add Time(HH:mm:ss): ");
@@ -156,10 +158,14 @@ public class FinancialTracker {
             System.out.println("Add Amount(Positive): ");
             double price = -1 * scanner.nextDouble();
             scanner.nextLine();
+
             Transaction newDeposit = new Transaction(date, time, describe, ven, price);
+
             String line = String.format("%s|%s|%s|%s|%.2f",
                     newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
                     newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
             bw.write(line);
             bw.newLine();
             bw.close();
@@ -173,6 +179,8 @@ public class FinancialTracker {
        Ledger menu
        ------------------------------------------------------------------ */
     private static void ledgerMenu(Scanner scanner) {
+
+
         boolean running = true;
         while (running) {
             System.out.println("Ledger");
