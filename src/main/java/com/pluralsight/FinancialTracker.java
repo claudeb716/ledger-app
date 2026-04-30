@@ -235,29 +235,27 @@ public class FinancialTracker {
 
             String input = scanner.nextLine().trim();
 
-            LocalDate today = LocalDate.now();
-            LocalDate start = today.withDayOfMonth(1);
-            LocalDate previousMonth = start.minusMonths(1);
-            LocalDate end2 = start.minusDays(1);
-            LocalDate yearStart = today.withDayOfYear(1);
-            LocalDate previousYear =today.minusYears(1).withDayOfYear(1);
-            LocalDate end3 = today.minusYears(1).withMonth(12).withDayOfMonth(31);
-
+            LocalDate theEnd = LocalDate.now();
             switch (input) {
-                case "1" -> {/* TODO – month-to-date report */
-                    filterTransactionsByDate(start, today);
+                case "1" -> {
+                    LocalDate start = theEnd.withDayOfMonth(1);
+                    filterTransactionsByDate(start, theEnd);
                 }
-                case "2" -> {/* TODO – previous month report */
+                case "2" -> {
+                    LocalDate previousMonth = theEnd.withDayOfMonth(1).withMonth(1);
+                    LocalDate end2 = theEnd.withDayOfMonth(1).minusDays(1);
                     filterTransactionsByDate(previousMonth, end2);
                 }
-                case "3" -> {/* TODO – year-to-date report   */
-                    filterTransactionsByDate(yearStart,today);
+                case "3" -> {
+                    LocalDate yearStart = theEnd.withDayOfYear(1);
+                    filterTransactionsByDate(yearStart,theEnd);
                 }
-                case "4" -> {/* TODO – previous year report  */
+                case "4" -> {
+                    LocalDate previousYear = theEnd.minusYears(1).withDayOfYear(1);
+                    LocalDate end3 = theEnd.minusYears(1).withMonth(12).withDayOfMonth(31);
                     filterTransactionsByDate(previousYear, end3);
                 }
                 case "5" -> {
-                    /* TODO – prompt for vendor then report */
                     System.out.println("Enter Vendor name");
                     String venName = scanner.nextLine().trim();
                     filterTransactionsByVendor(venName);
@@ -327,6 +325,7 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static LocalDate parseDate(String s) {
         /* TODO – return LocalDate or null */
+        LocalDate today = LocalDate.now();
         return null;
     }
 
