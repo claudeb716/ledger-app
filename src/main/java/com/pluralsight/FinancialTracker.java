@@ -73,7 +73,7 @@ public class FinancialTracker {
                 LocalTime time = LocalTime.parse(parts[1], TIME_FMT);
                 String description = parts[2];
                 String vendor = parts[3];
-                double amount = Double.parseDouble(parts[4]);
+                Double amount = parseDouble(parts[4]);
                 transactions.add(new Transaction(date, time, description, vendor, amount));
             }
             tr.close();
