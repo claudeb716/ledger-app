@@ -52,11 +52,6 @@ public class FinancialTracker {
     }
 
     public static void loadTransactions(String fileName) {
-        // TODO: create file if it does not exist, then read each line,
-        //       parse the five fields, build a Transaction object,
-        //       and add it to the transactions list.
-
-
         File transactionFile = new File(fileName);
         if (!transactionFile.exists()) {
             System.out.println("Error: " + fileName + "was not found");
@@ -69,26 +64,21 @@ public class FinancialTracker {
 
             String line;
 
-
             while ((line = tr.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 LocalDate date = LocalDate.parse(parts[0], DATE_FMT);
                 LocalTime time = LocalTime.parse(parts[1], TIME_FMT);
-                String description = parts[2];
-                String vendor = parts[3];
-                Double amount = parseDouble(parts[4]);
+                String description = parts[2].trim();
+                String vendor = parts[3].trim();
+                Double amount = parseDouble(parts[4].trim());
                 transactions.add(new Transaction(date, time, description, vendor, amount));
+
             }
             tr.close();
         } catch (Exception e) {
-            System.err.println("Error");
+            System.err.println("Error loading file " + e.getMessage());
         }
     }
-
-    /* ------------------------------------------------------------------
-       Add new transactions
-       ------------------------------------------------------------------ */
-
     /**
      * Prompt for ONE date+time string in the format
      * "yyyy-MM-dd HH:mm:ss", plus description, vendor, amount.
@@ -204,19 +194,27 @@ public class FinancialTracker {
     }
     private static void displayDeposits() {
         /* TODO – only amount > 0               */
+        boolean found = false;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0){
                 System.out.println(transaction);
+                found =true;
+            }
+            if (!found){
+                System.out.println("No Deposits found.");
             }
         }
     }
     private static void displayPayments() {
         /* TODO – only amount < 0               */
+        boolean found = false;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
                 System.out.println(transaction);
+                found = true;
             }
-
+        }   if (!found){
+            System.out.println("No Payments found.");
         }
     }
 
@@ -333,11 +331,11 @@ public class FinancialTracker {
         /* TODO – return Double   or null */
         double finalAmount = Double.parseDouble(amount);
         if (finalAmount > 0) {
-                return Math.abs(finalAmount);
+                return finalAmount;
             } else if (finalAmount < 0) {
-                return Math.abs(finalAmount);
+                return finalAmount;
             }else {
-                return Math.abs(finalAmount);
+                return finalAmount;
             }
     }
 }
