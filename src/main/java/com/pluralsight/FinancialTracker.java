@@ -77,10 +77,16 @@ public class FinancialTracker {
         //       and add it to the transactions list.
 
 
-        String line;
+
 
         try {
+            File transactionFile = new File(fileName);
+            transactionFile.createNewFile();
             BufferedReader tr = new BufferedReader(new FileReader(fileName));
+
+            String line;
+
+
             while ((line = tr.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 LocalDate date = LocalDate.parse(parts[0], DATE_FMT);
