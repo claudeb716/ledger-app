@@ -57,11 +57,14 @@ public class FinancialTracker {
         //       and add it to the transactions list.
 
 
-
+        File transactionFile = new File(fileName);
+        if (!transactionFile.exists()) {
+            System.out.println("Error: " + fileName + "was not found");
+            return;
+        }
 
         try {
-            File transactionFile = new File(fileName);
-            transactionFile.createNewFile();
+
             BufferedReader tr = new BufferedReader(new FileReader(fileName));
 
             String line;
@@ -217,9 +220,6 @@ public class FinancialTracker {
         }
     }
 
-    /* ------------------------------------------------------------------
-       Reports menu
-       ------------------------------------------------------------------ */
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
