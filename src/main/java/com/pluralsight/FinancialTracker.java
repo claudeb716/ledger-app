@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /*
@@ -95,6 +97,13 @@ public class FinancialTracker {
                 String vendor = parts[3];
                 double amount = Double.parseDouble(parts[4]);
                 transactions.add(new Transaction(date, time, description, vendor, amount));
+                transactions.sort(new Comparator<Transaction>() {
+                    @Override
+                    public int compare(Transaction o1, Transaction o2) {
+                        return 0;
+                    }
+                });
+
             }
             tr.close();
         } catch (Exception e) {
@@ -126,7 +135,7 @@ public class FinancialTracker {
             System.out.println("Add Vendor: ");
             String ven = scanner.nextLine();
             System.out.println("Add Amount(Positive): ");
-            double price = scanner.nextDouble();
+            Double price = parseDouble(scanner.nextDouble());
             scanner.nextLine();
 
             Transaction newDeposit = new Transaction(date, time, describe, ven, price);
@@ -216,18 +225,14 @@ public class FinancialTracker {
     private static void displayLedger() {
         /* TODO – print all transactions in column format */
         for (Transaction transaction : transactions) {
-            System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                    transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
-                    transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            System.out.println(transaction);
         }
     }
     private static void displayDeposits() {
         /* TODO – only amount > 0               */
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0){
-                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                        transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
-                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+                System.out.println(transaction);
             }
         }
     }
@@ -235,9 +240,7 @@ public class FinancialTracker {
         /* TODO – only amount < 0               */
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0) {
-                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                        transaction.getDate().format(DATE_FMT), transaction.getTime().format(TIME_FMT),
-                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+                System.out.println(transaction);
             }
 
         }
@@ -366,8 +369,14 @@ public class FinancialTracker {
         return null;
     }
 
-    private static Double parseDouble(String s) {
+    private static Double parseDouble( Double finalAmount) {
         /* TODO – return Double   or null */
-        return null;
+        if (finalAmount > 0) {
+                return finalAmount;
+            } else if (finalAmount < 0) {
+                return -1 * finalAmount;
+            }else {
+                return null;
+            }
     }
 }
