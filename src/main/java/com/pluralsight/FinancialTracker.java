@@ -10,19 +10,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
-/*
- * Capstone skeleton – personal finance tracker.
- * ------------------------------------------------
- * File format  (pipe-delimited)
- *     yyyy-MM-dd|HH:mm:ss|description|vendor|amount
- * A deposit has a positive amount; a payment is stored
- * as a negative amount.
- */
+
 public class FinancialTracker {
 
-    /* ------------------------------------------------------------------
-       Shared data and formatters
-       ------------------------------------------------------------------ */
     private static final ArrayList<Transaction> transactions = new ArrayList<>();
     private static final String FILE_NAME = "transactions.csv";
 
@@ -34,9 +24,6 @@ public class FinancialTracker {
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
-    /* ------------------------------------------------------------------
-       Main menu
-       ------------------------------------------------------------------ */
     public static void main(String[] args) {
         loadTransactions(FILE_NAME);
 
@@ -64,15 +51,6 @@ public class FinancialTracker {
         myScanner.close();
     }
 
-    /* ------------------------------------------------------------------
-       File I/O
-       ------------------------------------------------------------------ */
-
-    /**
-     * Load transactions from FILE_NAME.
-     * • If the file doesn’t exist, create an empty one so that future writes succeed.
-     * • Each line looks like: date|time|description|vendor|amount
-     */
     public static void loadTransactions(String fileName) {
         // TODO: create file if it does not exist, then read each line,
         //       parse the five fields, build a Transaction object,
@@ -97,13 +75,6 @@ public class FinancialTracker {
                 String vendor = parts[3];
                 double amount = Double.parseDouble(parts[4]);
                 transactions.add(new Transaction(date, time, description, vendor, amount));
-                transactions.sort(new Comparator<Transaction>() {
-                    @Override
-                    public int compare(Transaction o1, Transaction o2) {
-                        return 0;
-                    }
-                });
-
             }
             tr.close();
         } catch (Exception e) {
@@ -135,12 +106,12 @@ public class FinancialTracker {
             System.out.println("Add Vendor: ");
             String ven = scanner.nextLine();
             System.out.println("Add Amount(Positive): ");
-            Double price = parseDouble(scanner.nextDouble());
-            scanner.nextLine();
+            String price = scanner.nextLine();
+            Double finalAmount = parseDouble(price);
 
-            Transaction newDeposit = new Transaction(date, time, describe, ven, price);
+            Transaction newDeposit = new Transaction(date, time, describe, ven, finalAmount);
             String line = String.format("%s|%s|%s|%s|%.2f",
-                    newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
+                    newDeposit.getDate(), newDeposit.getTime(),
                     newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
@@ -171,13 +142,13 @@ public class FinancialTracker {
             System.out.println("Add Vendor: ");
             String ven = scanner.nextLine();
             System.out.println("Add Amount(Positive): ");
-            double price = -1 * scanner.nextDouble();
-            scanner.nextLine();
+            String price = scanner.nextLine();
+            Double finalAmount = parseDouble(price);
 
-            Transaction newDeposit = new Transaction(date, time, describe, ven, price);
+            Transaction newDeposit = new Transaction(date, time, describe, ven, finalAmount);
 
             String line = String.format("%s|%s|%s|%s|%.2f",
-                    newDeposit.getDate().format(DATE_FMT), newDeposit.getTime().format(TIME_FMT),
+                    newDeposit.getDate(), newDeposit.getTime(),
                     newDeposit.getDescription(), newDeposit.getVendor(), newDeposit.getAmount());
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true));
@@ -306,9 +277,7 @@ public class FinancialTracker {
         boolean found = false;
         for (Transaction transaction : transactions){
         if (!transaction.getDate().isBefore(start) && !transaction.getDate().isAfter(end)){
-            System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                    transaction.getDate(), transaction.getTime(),
-                    transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+            System.out.println(transaction);
             found = true;
         }
         }   if (!found){
@@ -323,9 +292,7 @@ public class FinancialTracker {
         boolean found = false;
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendor)){
-                System.out.printf("%-10s | %-8s | %-20s | %-15s | $%.2f%n",
-                        transaction.getDate(), transaction.getTime(),
-                        transaction.getDescription(), transaction.getVendor(), transaction.getAmount());
+                System.out.println(transaction);
                 found = true;
             }
         }    if (!found){
@@ -339,24 +306,18 @@ public class FinancialTracker {
         boolean running = true;
         while (running) {
             System.out.println("Custom Search");
-            System.out.println("Choose an option:");
-            System.out.println("1) Start Date");
-            System.out.println("2) End Date");
-            System.out.println("3) Description");
-            System.out.println("4) Vendor");
-            System.out.println("5) Amount");
-            System.out.println("0) Back");
+            System.out.println("Start Date");
+            String startDate = scanner.nextLine().trim();
+            System.out.println("End Date");
+            String endDate = scanner.nextLine().trim();
+            System.out.println("Description");
+            String describe = scanner.nextLine().trim();
+            System.out.println("Vendor");
+            String vendorName = scanner.nextLine().trim();
+            System.out.println("Amount");
+            Double price = scanner.nextDouble();
+            String line = String.format(startDate,endDate,describe,vendorName,price);
 
-            String input = scanner.nextLine().trim();
-            switch (input) {
-                case "1" -> {}
-                case "2" -> {}
-                case "3" -> {}
-                case "4" -> {}
-                case "5" -> {}
-                case "0" -> running = false;
-                default -> System.out.println("Invalid option");
-            }
         }
 
     }
@@ -369,14 +330,15 @@ public class FinancialTracker {
         return null;
     }
 
-    private static Double parseDouble( Double finalAmount) {
+    private static Double parseDouble( String amount) {
         /* TODO – return Double   or null */
+        double finalAmount = Double.parseDouble(amount);
         if (finalAmount > 0) {
-                return finalAmount;
+                return Math.abs(finalAmount);
             } else if (finalAmount < 0) {
-                return -1 * finalAmount;
+                return Math.abs(finalAmount);
             }else {
-                return null;
+                return Math.abs(finalAmount);
             }
     }
 }
