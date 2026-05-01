@@ -42,7 +42,9 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
 
-![Application Screenshot](path/to/your/screenshot.png)
+[Recording 2026-05-01 000001.gif](../../../../../Videos/Recording%202026-05-01%20000001.gif)
+
+[Recording 2026-05-01 000312.gif](../../../../../Videos/Recording%202026-05-01%20000312.gif)
 
 ## Future Work
 
