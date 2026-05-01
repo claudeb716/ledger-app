@@ -72,7 +72,6 @@ public class FinancialTracker {
                 String vendor = parts[3].trim();
                 Double amount = parseDouble(parts[4].trim());
                 transactions.add(new Transaction(date, time, description, vendor, amount));
-
             }
             tr.close();
         } catch (Exception e) {
@@ -171,7 +170,7 @@ public class FinancialTracker {
             System.out.println("H) Home");
 
             String input = scanner.nextLine().trim();
-
+            transactions.sort(Comparator.comparing(Transaction::getDate));
             switch (input.toUpperCase()) {
                 case "A" -> displayLedger();
                 case "D" -> displayDeposits();
@@ -182,10 +181,6 @@ public class FinancialTracker {
             }
         }
     }
-
-    /* ------------------------------------------------------------------
-       Display helpers: show data in neat columns
-       ---------------------------------- -------------------------------- */
     private static void displayLedger() {
         /* TODO – print all transactions in column format */
         for (Transaction transaction : transactions) {
@@ -312,18 +307,12 @@ public class FinancialTracker {
             String vendorName = scanner.nextLine().trim();
             System.out.println("Amount");
             Double price = scanner.nextDouble();
-            String line = String.format(startDate,endDate,describe,vendorName,price);
+
 
         }
-
     }
-
-    /* ------------------------------------------------------------------
-       Utility parsers (you can reuse in many places)
-       ------------------------------------------------------------------ */
     private static LocalDate parseDate(String s) {
         /* TODO – return LocalDate or null */
-        LocalDate today = LocalDate.now();
         return null;
     }
 
