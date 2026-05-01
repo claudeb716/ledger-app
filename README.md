@@ -2,12 +2,12 @@
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
-This app is a java-based management tool designed to 
+
+This app is a financial tracker app designed to record customer deposits and payments, as well as allow customers to view their transaction history with specific search filters for reports. While I initially created this app as part of an assignment,I completed the project to challenge myself and put my new coding skills into practice, which I believe will make it stand out by showing both what I’ve learned and the areas where I still want to grow.
 
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
+
 
 - As a Customer, I want a home screen so that I can navigate to different sections of the app.
 - As a Customer, I want to view a transaction ledger so that I can see a history of all my entries in one place.
@@ -35,8 +35,8 @@ Follow these steps to get your application running within IntelliJ IDEA:
 ## Technologies Used
 
 - Java 17
+
 - 
-- Any additional libraries or frameworks used in the project.
 
 ## Demo
 
@@ -46,7 +46,6 @@ Include screenshots or GIFs that show your application in action. Use tools like
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
 
 - Additional feature to be developed.
 - Improvement of current functionalities.
@@ -57,10 +56,12 @@ List resources such as tutorials, articles, or documentation that helped you dur
 
 - [Java Visual Learning Hub](https://raymaroun.github.io/yearup-java-visuals/index.html)
 - [Comparing Dates and Times in Java](https://prgrmmng.com/comparing-dates-and-times-isbefore-isafter-equals)
+- [Sorting List](https://www.bezkoder.com/java-sort-arraylist-of-objects/#Sort_ArrayList_of_Objects_by_field_in_Java)
+- [Java Tutorial](https://www.w3schools.com/java/default.asp)
 
 ## Team Members
 
-- **Claude** - Specific contributions or roles.
+- **Claude** - Software Developer
 
 
 ## Thanks
