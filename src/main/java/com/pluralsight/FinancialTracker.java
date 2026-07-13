@@ -24,7 +24,7 @@ public class FinancialTracker {
 //    private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
     public static void main(String[] args) {
-        loadTransactions(FILE_NAME);
+        loadTransactions(FILE_NAME); // Branch test - chris
 
         Scanner myScanner = new Scanner(System.in);
         boolean running = true;
