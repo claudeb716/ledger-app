@@ -1,8 +1,12 @@
 package com.pluralsight;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,6 +25,18 @@ public class FinancialTracker {
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
+    private static final String RESET = "\u001B[0m";
+    private static final String BLACK = "\u001B[30m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String PURPLE = "\u001B[35m";
+    private static final String CYAN = "\u001B[36m";
+    private static final String WHITE = "\u001B[37m";
+
+private static final String BOLD = "\u001B[1m";
+    
 //    private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
 
     public static void main(String[] args) {
