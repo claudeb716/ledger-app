@@ -46,12 +46,13 @@ private static final String BOLD = "\u001B[1m";
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to TransactionApp");
-            System.out.println("Choose an option:");
-            System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment (Debit)");
-            System.out.println("L) Ledger");
-            System.out.println("X) Exit");
+        printTitle("TRANSACTION APP");
+
+        System.out.println(GREEN + "D)" + RESET + " Add Deposit");
+        System.out.println(RED + "P)" + RESET + " Make Payment (Debit)");
+        System.out.println(BLUE + "L)" + RESET + " Ledger");
+        System.out.println(YELLOW + "X)" + RESET + " Exit");
+        System.out.print(PURPLE + "\nChoose an option: " + RESET);
 
             String input = myScanner.nextLine().trim();
 
@@ -60,7 +61,7 @@ private static final String BOLD = "\u001B[1m";
                 case "P" -> addPayment(myScanner);
                 case "L" -> ledgerMenu(myScanner);
                 case "X" -> running = false;
-                default -> System.out.println("Invalid option");
+                default -> System.out.println(RED + BOLD + "\n✗ Invalid option" + RESET);
             }
         }
         myScanner.close();
@@ -119,9 +120,11 @@ private static final String BOLD = "\u001B[1m";
             bw.write(line);
             bw.newLine();
             bw.close();
-            System.out.println("Deposit Added!");
+            System.out.println(GREEN + BOLD + "\n✓ Deposit Added!" + RESET);
         } catch (IOException e) {
-            System.err.println("Error");
+            System.out.println(
+        RED + BOLD + "\n✗ Error saving transaction." + RESET
+);
         }
     }
     private static void addPayment(Scanner scanner) {
@@ -148,7 +151,7 @@ private static final String BOLD = "\u001B[1m";
             bw.write(line);
             bw.newLine();
             bw.close();
-            System.out.println("Payment Added!");
+            System.out.println(GREEN + BOLD + "\n✓ Payment Added!" + RESET);
         } catch (IOException e) {
             System.err.println("Error");
         }
@@ -156,13 +159,15 @@ private static final String BOLD = "\u001B[1m";
     private static void ledgerMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
-            System.out.println("Ledger");
-            System.out.println("Choose an option:");
-            System.out.println("A) All");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
-            System.out.println("R) Reports");
-            System.out.println("H) Home");
+            printTitle("LEDGER");
+
+        System.out.println(CYAN + "A)" + RESET + " All");
+        System.out.println(GREEN + "D)" + RESET + " Deposits");
+        System.out.println(RED + "P)" + RESET + " Payments");
+        System.out.println(PURPLE + "R)" + RESET + " Reports");
+        System.out.println(YELLOW + "H)" + RESET + " Home");
+
+        System.out.print(BLUE + "\nChoose an option: " + RESET);
 
             String input = scanner.nextLine().trim();
             transactions.sort(Comparator.comparing(Transaction::getDate));
@@ -176,47 +181,84 @@ private static final String BOLD = "\u001B[1m";
             }
         }
     }
+
     private static void displayLedger() {
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction);
-        }
+    printTitle("ALL TRANSACTIONS");
+
+    if (transactions.isEmpty()) {
+        System.out.println(
+                YELLOW + "No transactions found." + RESET
+        );
+        return;
     }
+
+    printTransactionTableHeader();
+
+    for (Transaction transaction : transactions) {
+        printTransactionRow(transaction);
+    }
+
+    printTransactionTableFooter();
+    }
+
     private static void displayDeposits() {
-        boolean found = false;
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() > 0){
-                System.out.println(transaction);
-                found =true;
-            }
-            if (!found){
-                System.out.println("No Deposits found.");
-            }
+    boolean found = false;
+
+    printTitle("DEPOSITS");
+    printTransactionTableHeader();
+
+    for (Transaction transaction : transactions) {
+        if (transaction.getAmount() > 0) {
+            printTransactionRow(transaction);
+            found = true;
         }
     }
-    private static void displayPayments() {
-        boolean found = false;
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0) {
-                System.out.println(transaction);
-                found = true;
-            }
-        }   if (!found){
-            System.out.println("No Payments found.");
+
+    printTransactionTableFooter();
+
+    if (!found) {
+        System.out.println(
+                YELLOW + "No deposits found." + RESET
+        );
+    }
+}
+    
+private static void displayPayments() {
+    boolean found = false;
+
+    printTitle("PAYMENTS");
+    printTransactionTableHeader();
+
+    for (Transaction transaction : transactions) {
+        if (transaction.getAmount() < 0) {
+            printTransactionRow(transaction);
+            found = true;
         }
     }
+
+    printTransactionTableFooter();
+
+    if (!found) {
+        System.out.println(
+                YELLOW + "No payments found." + RESET
+        );
+    }
+}
 
     private static void reportsMenu(Scanner scanner) {
         boolean running = true;
         while (running) {
-            System.out.println("Reports");
-            System.out.println("Choose an option:");
-            System.out.println("1) Month To Date");
-            System.out.println("2) Previous Month");
-            System.out.println("3) Year To Date");
-            System.out.println("4) Previous Year");
-            System.out.println("5) Search by Vendor");
-            System.out.println("6) Custom Search");
-            System.out.println("0) Back");
+        printTitle("REPORTS");
+
+        System.out.println(CYAN + "1)" + RESET + " Month To Date");
+        System.out.println(CYAN + "2)" + RESET + " Previous Month");
+        System.out.println(CYAN + "3)" + RESET + " Year To Date");
+        System.out.println(CYAN + "4)" + RESET + " Previous Year");
+        System.out.println(PURPLE + "5)" + RESET + " Search by Vendor");
+        System.out.println(PURPLE + "6)" + RESET + " Custom Search");
+        System.out.println(YELLOW + "0)" + RESET + " Back");
+
+        System.out.print(BLUE + "\nChoose an option: " + RESET);
 
             String input = scanner.nextLine().trim();
 
@@ -252,31 +294,57 @@ private static final String BOLD = "\u001B[1m";
         }
     }
 
-    private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
-        boolean found = false;
-        for (Transaction transaction : transactions){
-        if (!transaction.getDate().isBefore(start) && !transaction.getDate().isAfter(end)){
-            System.out.println(transaction);
+    private static void filterTransactionsByDate(
+        LocalDate start,
+        LocalDate end
+) {
+    boolean found = false;
+
+    printTitle("TRANSACTION REPORT");
+    printTransactionTableHeader();
+
+    for (Transaction transaction : transactions) {
+        if (!transaction.getDate().isBefore(start)
+                && !transaction.getDate().isAfter(end)) {
+
+            printTransactionRow(transaction);
             found = true;
         }
-        }   if (!found){
-            System.out.println("No Reports Found!");
-        }
-
-
     }
+
+    printTransactionTableFooter();
+
+    if (!found) {
+        System.out.println(
+                YELLOW + "No reports found." + RESET
+        );
+    }
+}
 
     private static void filterTransactionsByVendor(String vendor) {
-        boolean found = false;
-        for (Transaction transaction : transactions) {
-            if (transaction.getVendor().equalsIgnoreCase(vendor)){
-                System.out.println(transaction);
-                found = true;
-            }
-        }    if (!found){
-            System.out.println("No transactions found for: " + vendor);
+    boolean found = false;
+
+    printTitle("VENDOR SEARCH: " + vendor.toUpperCase());
+    printTransactionTableHeader();
+
+    for (Transaction transaction : transactions) {
+        if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+            printTransactionRow(transaction);
+            found = true;
         }
     }
+
+    printTransactionTableFooter();
+
+    if (!found) {
+        System.out.println(
+                YELLOW +
+                "No transactions found for: " +
+                vendor +
+                RESET
+        );
+    }
+}
 
     private static void customSearch(Scanner scanner) {
         boolean running = true;
@@ -312,4 +380,70 @@ private static final String BOLD = "\u001B[1m";
                 return finalAmount;
             }
     }
+    private static void printTitle(String title) {
+    System.out.println();
+    System.out.println(CYAN + BOLD +
+            "============================================================");
+    System.out.printf("%30s%n", title);
+    System.out.println(
+            "============================================================"
+            + RESET);
+}
+private static void printTransactionTableHeader() {
+    System.out.println(
+            CYAN +
+            "+------------+----------+----------------------+----------------------+-------------+"
+            + RESET
+    );
+
+    System.out.printf(
+            BOLD + CYAN +
+            "| %-10s | %-8s | %-20s | %-20s | %11s |%n"
+            + RESET,
+            "DATE",
+            "TIME",
+            "DESCRIPTION",
+            "VENDOR",
+            "AMOUNT"
+    );
+
+    System.out.println(
+            CYAN +
+            "+------------+----------+----------------------+----------------------+-------------+"
+            + RESET
+    );
+}
+private static void printTransactionTableFooter() {
+    System.out.println(
+            CYAN +
+            "+------------+----------+----------------------+----------------------+-------------+"
+            + RESET
+    );
+}
+private static void printTransactionRow(Transaction transaction) {
+    String amountColor;
+
+    if (transaction.getAmount() >= 0) {
+        amountColor = GREEN;
+    } else {
+        amountColor = RED;
+    }
+
+    System.out.printf(
+            "| %-10s | %-8s | %-20s | %-20s | "
+                    + amountColor + "%11s" + RESET + " |%n",
+            transaction.getDate(),
+            transaction.getTime(),
+            shortenText(transaction.getDescription(), 20),
+            shortenText(transaction.getVendor(), 20),
+            String.format("$%,.2f", transaction.getAmount())
+    );
+}
+private static String shortenText(String text, int maximumLength) {
+    if (text.length() <= maximumLength) {
+        return text;
+    }
+
+    return text.substring(0, maximumLength - 3) + "...";
+}
 }
