@@ -88,20 +88,23 @@ public class FinancialTracker {
         }
     }
     private static void addDeposit(Scanner scanner) {
-        // TODO
         try {
+            String dateInput = readInput(scanner, "Add Date(yyyy-MM-dd)");
+            if (isCancel(dateInput)) { cancelEntry(); return; }
+            LocalDate date = LocalDate.parse(dateInput);
 
+            String timeInput = readInput(scanner, "Add Time(HH:mm:ss)");
+            if (isCancel(timeInput)) { cancelEntry(); return; }
+            LocalTime time = LocalTime.parse(timeInput);
 
-            System.out.println("Add Date(yyyy-MM-dd): ");
-            LocalDate date = LocalDate.parse(scanner.nextLine());
-            System.out.println("Add Time(HH:mm:ss): ");
-            LocalTime time = LocalTime.parse(scanner.nextLine());
-            System.out.println("Add Description: ");
-            String describe = scanner.nextLine();
-            System.out.println("Add Vendor: ");
-            String ven = scanner.nextLine();
-            System.out.println("Add Amount(Positive): ");
-            String price = scanner.nextLine();
+            String describe = readInput(scanner, "Add Description");
+            if (isCancel(describe)) { cancelEntry(); return; }
+
+            String ven = readInput(scanner, "Add Vendor");
+            if (isCancel(ven)) { cancelEntry(); return; }
+
+            String price = readInput(scanner, "Add Amount(Positive)");
+            if (isCancel(price)) { cancelEntry(); return; }
             Double finalAmount = parseDouble(price);
 
             Transaction newDeposit = new Transaction(date, time, describe, ven, finalAmount);
@@ -120,16 +123,22 @@ public class FinancialTracker {
     }
     private static void addPayment(Scanner scanner) {
         try {
-            System.out.println("Add Date(yyyy-MM-dd): ");
-            LocalDate date = LocalDate.parse(scanner.nextLine());
-            System.out.println("Add Time(HH:mm:ss): ");
-            LocalTime time = LocalTime.parse(scanner.nextLine());
-            System.out.println("Add Description: ");
-            String describe = scanner.nextLine();
-            System.out.println("Add Vendor: ");
-            String ven = scanner.nextLine();
-            System.out.println("Add Amount(Positive): ");
-            String price = scanner.nextLine();
+            String dateInput = readInput(scanner, "Add Date(yyyy-MM-dd)");
+            if (isCancel(dateInput)) { cancelEntry(); return; }
+            LocalDate date = LocalDate.parse(dateInput);
+
+            String timeInput = readInput(scanner, "Add Time(HH:mm:ss)");
+            if (isCancel(timeInput)) { cancelEntry(); return; }
+            LocalTime time = LocalTime.parse(timeInput);
+
+            String describe = readInput(scanner, "Add Description");
+            if (isCancel(describe)) { cancelEntry(); return; }
+
+            String ven = readInput(scanner, "Add Vendor");
+            if (isCancel(ven)) { cancelEntry(); return; }
+
+            String price = readInput(scanner, "Add Amount(Positive)");
+            if (isCancel(price)) { cancelEntry(); return; }
             Double finalAmount = parseDouble(price);
 
             Transaction newDeposit = new Transaction(date, time, describe, ven, finalAmount);
@@ -146,6 +155,16 @@ public class FinancialTracker {
         } catch (IOException e) {
             System.err.println("Error");
         }
+    }
+    private static String readInput(Scanner scanner, String prompt) {
+        System.out.println(prompt + " (C to cancel): ");
+        return scanner.nextLine().trim();
+    }
+    private static boolean isCancel(String input) {
+        return input.equalsIgnoreCase("C") || input.equalsIgnoreCase("CANCEL");
+    }
+    private static void cancelEntry() {
+        System.out.println("Entry cancelled. Returning to menu.");
     }
     private static void ledgerMenu(Scanner scanner) {
         boolean running = true;
